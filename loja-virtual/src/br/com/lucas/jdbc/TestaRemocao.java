@@ -22,11 +22,7 @@ public class TestaRemocao {
          statement.execute("delete from Produto where id>3");
          int count = statement.getUpdateCount();
          System.out.println(count + " linhas atualizadas");  
-             
-         
-         
-         
-         
+        
          statement.close();
          connection.close();
          

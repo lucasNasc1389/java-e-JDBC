@@ -16,30 +16,49 @@ import java.sql.Statement;
  * @author lucas
  */
 public class TestaInsercao {
+
     public static void main(String[] args) throws SQLException {
-         String nome = "Notebook 'i3' 2013";
-         String descricao = "Notebook i3";
-        
-         Connection connection = Database.getConnection();
-         
-         String sql = "insert into Produto(nome, descricao) values(?, ?)";
-         PreparedStatement statement = connection.prepareStatement(sql, 
-                 Statement.RETURN_GENERATED_KEYS);
-         statement.setString(1, nome);
-         statement.setString(2, descricao);
-         
-         boolean resultado = statement.execute();
-         
-         System.out.println(resultado);
-         
-         ResultSet resultSet = statement.getGeneratedKeys();
-         while(resultSet.next()) {
+        String nome = "Notebook 'i3' 2013";
+        String descricao = "Notebook i3";
+
+        try (Connection connection = Database.getConnection()) {
+            connection.setAutoCommit(false);
+            String sql = "insert into Produto(nome, descricao) values(?, ?)";
+
+            try (PreparedStatement statement = connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS)) {
+
+                adiciona(statement, "Fogão", "Cocktop");
+                adiciona(statement, "Blueray", "Smart FullHD 54 polegadas");
+                connection.commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                connection.rollback();
+                System.out.println("Rollback efetuado");
+            }
+
+        }
+    }
+
+    private static void adiciona(PreparedStatement statement, String nome, String descricao) throws SQLException {
+
+        if (nome.equals("Blueray")) {
+            throw new IllegalArgumentException("Problema ocorrido");
+        }
+
+        statement.setString(1, nome);
+        statement.setString(2, descricao);
+
+        boolean resultado = statement.execute();
+
+        System.out.println(resultado);
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+        while (resultSet.next()) {
             String id = resultSet.getString("id");
-             System.out.println(id + " gerado");
-         }
-         
-         resultSet.close();
-         statement.close();
-         connection.close();
+            System.out.println(id + " gerado");
+        }
+
+        resultSet.close();
     }
 }
