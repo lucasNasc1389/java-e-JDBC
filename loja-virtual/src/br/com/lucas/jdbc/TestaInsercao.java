@@ -25,7 +25,7 @@ public class TestaInsercao {
          String sql = "insert into Produto(nome, descricao) values(?, ?)";
          PreparedStatement statement = connection.prepareStatement(sql, 
                  Statement.RETURN_GENERATED_KEYS);
-         statement.setString(1, "Nome");
+         statement.setString(1, nome);
          statement.setString(2, descricao);
          
          boolean resultado = statement.execute();
