@@ -5,6 +5,7 @@
  */
 package br.com.lucas.jdbc;
 
+import br.com.lucas.jdbc.dao.ProdutosDAO;
 import br.com.lucas.jdbc.modelo.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

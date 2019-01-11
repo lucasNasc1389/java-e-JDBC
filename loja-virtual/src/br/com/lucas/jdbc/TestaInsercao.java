@@ -28,8 +28,8 @@ public class TestaInsercao {
             try (PreparedStatement statement = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS)) {
 
-                adiciona(statement, "Fogão", "Cocktop");
-                adiciona(statement, "Blueray", "Smart FullHD 54 polegadas");
+                adiciona(statement, "PlayStation4", "Console");
+                adiciona(statement, "Pc Desktop", "Core i7");
                 connection.commit();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -42,7 +42,7 @@ public class TestaInsercao {
 
     private static void adiciona(PreparedStatement statement, String nome, String descricao) throws SQLException {
 
-        if (nome.equals("Blueray")) {
+        if (nome.equals("")) {
             throw new IllegalArgumentException("Problema ocorrido");
         }
 
